@@ -1,4 +1,6 @@
-const Book = require('../models/BookModel')
+const { availableMemory } = require('process');
+const Book = require('../models/BookModel');
+const { realpathSync } = require('fs');
 
 exports.AddBookController = async (req, res) => {
     try {
@@ -154,6 +156,35 @@ exports.AddBookController = async (req, res) => {
         })
       }
     } catch (error) {
-      console.log(error)
+      return res.status(500).json({
+        success:false,
+        message:"Internal Server Error",
+        error,
+      })
+    }
+  }
+
+
+  exports.allAvailableBooks = async (req,res) => {
+    try {
+      const availableBooks = await Book.find({available:true})
+      if(!availableBooks){
+        return res.status(400).json({
+          success:false,
+          message:"Sorry no book is available"
+        })
+      }
+
+      return res.status(200).json({
+        success:true,
+        message:"All the available books returned successfully",
+        availableBooks
+      })
+    } catch (error) {
+      return res.status(500).json({
+        success:false,
+        message:"Internal Server Error",
+        error,
+      })
     }
   }
