@@ -4,7 +4,7 @@ const APP = 'http://localhost:5001'
 
 test('should handle POST request to /addBook', async()=>{
     const newBook = {
-        ISBN: "ISBN 01985266",
+        ISBN: "ISBN 01985267",
         title: "strive your way",
         author: "jay",
         yearOfPublish: 2009,

@@ -3,14 +3,16 @@ const express = require("express");
 const app = express();
 const PORT = process.env.PORT || 5001;
 const BookRoutes = require('./Routes/BookRoute')
-
-
+const {connectToMongo} = require('./config/database')
 
 // Middleware to parse JSON bodies
 app.use(express.json());
+//connect to database
+connectToMongo();
+
+
 
 app.use('/api/v1/Book',BookRoutes);
-
 
 app.get('/',(req,res)=>{
     return res.status(200).send('Hello from server')
