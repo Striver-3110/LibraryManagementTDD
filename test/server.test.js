@@ -1,7 +1,5 @@
 const supertest = require('supertest');
-const express = require('express');
 const { describe } = require('node:test');
-const { request } = require('http');
 
 const APP = 'http://localhost:5001';
 
