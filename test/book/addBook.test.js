@@ -4,7 +4,7 @@ const APP = 'http://localhost:5001'
 
 test('should handle POST request to /addBook', async()=>{
     const newBook = {
-        ISBN: "ISBN 01985267",
+        ISBN: "ISBN 01985260",
         title: "strive your way",
         author: "jay",
         yearOfPublish: 2009,
@@ -16,4 +16,20 @@ test('should handle POST request to /addBook', async()=>{
     expect(response.statusCode).toBe(200);
     expect(response.body).toHaveProperty('message');
     expect(response.body.success).toBe(true);
+})
+
+test('should restrict to add existing book', async()=>{
+    const newBook = {
+        ISBN: "ISBN 01985267",
+        title: "strive your way",
+        author: "jay",
+        yearOfPublish: 2009,
+        available: true,
+        availableCopies: 10,
+    };
+    const response = await supertest(APP).post('/api/v1/Book/addNewBook').send(newBook)
+    expect(response.statusCode).toBe(400);
+    expect(response.body.success).toBe(false);
+    expect(response.body).toHaveProperty('message');
+    expect(response.body.message).toBe('Book already exists')
 })

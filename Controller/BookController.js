@@ -20,6 +20,7 @@ exports.AddBookController = async (req, res) => {
   
       const existingBook = await Book.findOne({ ISBN });
       if (existingBook) {
+        console.log("book already exist")
         return res
           .status(400)
           .json({ success: false, message: "Book already exists" });
