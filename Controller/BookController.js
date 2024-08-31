@@ -114,3 +114,46 @@ exports.AddBookController = async (req, res) => {
     }
   };
   
+
+  exports.ReturnBookController = async (req, res) =>{
+    try {
+      const {
+        ISBN
+      } = req.body;
+      if(!ISBN){
+        return res.status(400).json({
+          success:false,
+          message:'ISBN is required!'
+        })
+      }
+      const returnedBook = await Book.findOne({ISBN})
+
+      if(!returnedBook){
+        return res.status(404).json({
+          success:false,
+          message:"Sorry the book is not allowed to be returned"
+        })
+      }
+
+      let isAvailable = false;
+      const remainingCopies = returnedBook.availableCopies + 1;
+      if(remainingCopies >= 0){
+        isAvailable = true;
+      }
+      const updatedBook = await Book.findOneAndUpdate({ISBN},{
+        available:isAvailable,
+        availableCopies:remainingCopies
+      },
+      {new:true}
+    )
+      if(updatedBook){
+        return res.status(200).json({
+          success:true,
+          message:"Book returned successfully.",
+          updatedBook
+        })
+      }
+    } catch (error) {
+      console.log(error)
+    }
+  }
