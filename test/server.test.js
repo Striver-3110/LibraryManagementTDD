@@ -21,8 +21,8 @@ describe('server is running properly',()=>{
     })
 })
 
-
+// should return 404 for a non-existent route
 test('should return 404 for a non-existent route', async () => {
     const response = await supertest(APP).get('/non-existent-route');
-    expect(response.statusCode).toBe(200);
+    expect(response.statusCode).toBe(404);
 });
