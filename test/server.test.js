@@ -13,9 +13,10 @@ describe('server is running properly',()=>{
     
     // 
     test('should respond to the GET request at the root url',async()=>{
-        const response = await supertest(app).get('/');
+        const response = await supertest('http://localhost:5001').get('/');
 
         // failing test case
-        expect(response.statusCode).toBe(404);
+        expect(response.statusCode).toBe(200);
     })
 })
+
