@@ -2,8 +2,14 @@
 const express = require("express");
 const app = express();
 const PORT = process.env.PORT || 5001;
+const BookRoutes = require('./Routes/BookRoute')
 
 
+
+// Middleware to parse JSON bodies
+app.use(express.json());
+
+app.use('/api/v1/Book',BookRoutes);
 
 
 app.get('/',(req,res)=>{
