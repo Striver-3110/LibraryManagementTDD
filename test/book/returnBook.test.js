@@ -13,4 +13,15 @@ describe('Book returning API', ()=>{
         expect(response.body.success).toBe(true);
         expect(response.body.message).toBe("Book returned successfully.")
     })
+    
+    test('should not allow the book to be returned when does not exists on the database',async () =>{
+        const returnBook = {
+            ISBN:"ISBN 01985299"
+        }
+
+        const response = await supertest(process.env.APP).post('/api/v1/Book/returnBook').send(returnBook)
+        expect(response.statusCode).toBe(404)
+        expect(response.body.success).toBe(false)
+        expect(response.body).toHaveProperty('message')
+    })
 })
