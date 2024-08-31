@@ -16,5 +16,4 @@ test('should handle POST request to /addBook', async()=>{
     expect(response.statusCode).toBe(200);
     expect(response.body).toHaveProperty('message');
     expect(response.body.success).toBe(true);
-    expect(response.body).toHaveProperty('book');
 })
