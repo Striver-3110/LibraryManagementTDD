@@ -49,7 +49,6 @@ Adds a new book to the library's inventory.
 }
 ```
 
-
 ### POST /api/v1/Book/returnBook
 Returns a borrowed book to the library.
 
