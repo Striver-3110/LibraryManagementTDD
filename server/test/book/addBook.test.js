@@ -7,7 +7,7 @@ describe('Book Addition API', () => {
     // Test for successfully adding a new book
     test('should successfully add a new book', async () => {
         const newBook = {
-            ISBN: "ISBN 24934251",
+            ISBN: "ISBN 24934252",
             title: "Strive Your Way",
             author: "Jay",
             yearOfPublish: 2009,
