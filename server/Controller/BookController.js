@@ -183,3 +183,27 @@ exports.allAvailableBooks = async (req, res) => {
     });
   }
 };
+
+exports.allBooks = async (req, res) => {
+  try {
+    const allBooks = await Book.find();
+    if (!allBooks) {
+      return res.status(400).json({
+        success: false,
+        message: "Sorry no books are in library",
+      });
+    }
+
+    return res.status(200).json({
+      success: true,
+      message: "All the books returned successfully",
+      allBooks,
+    });
+  } catch (error) {
+    return res.status(500).json({
+      success: false,
+      message: "Internal Server Error",
+      error,
+    });
+  }
+};

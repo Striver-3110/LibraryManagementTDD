@@ -6,7 +6,7 @@ describe('Book Addition API', () => {
     // Test for successfully adding a new book
     test('should successfully add a new book', async () => {
         const newBook = {
-            ISBN: "ISBN 01985260",
+            ISBN: "ISBN 01985270",
             title: "strive your way",
             author: "jay",
             yearOfPublish: 2009,
@@ -18,10 +18,11 @@ describe('Book Addition API', () => {
             .post('/api/v1/Book/addNewBook')
             .send(newBook);
 
+            console.log(response.body)
         expect(response.statusCode).toBe(200);
         expect(response.body.success).toBe(true);
         expect(response.body.message).toBe('Book added successfully!');
-        expect(response.body).toHaveProperty('book');
+        expect(response.body).toHaveProperty('newBook');
     });
 
     // Test for attempting to add a book that already exists
@@ -64,5 +65,4 @@ describe('Book Addition API', () => {
         expect(response.body.success).toBe(false);
         expect(response.body.message).toBe('All fields are required');
     });
-
 });

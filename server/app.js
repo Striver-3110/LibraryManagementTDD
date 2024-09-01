@@ -7,6 +7,7 @@ const {connectToMongo} = require('./config/database')
 
 // Middleware to parse JSON bodies
 app.use(express.json());
+app.use(require('cors')())
 //connect to database
 connectToMongo();
 
