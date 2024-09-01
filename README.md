@@ -143,15 +143,15 @@ Retrieves a list of books that are currently available for borrowing.
 ```
 
 ## Test Cases Passed:
-![Test Cases Snapshot](./ui/passing-testcases-snapshot.png)
+![Test Cases Snapshot](./UI-Screenshots/passing-testcases-snapshot.png)
 
 ## UI Screenshots
 
 ### Home Page
-![Home Page](./ui/Home.png)
+![Home Page](./UI-Screenshots/Home.png)
 
 ### Add Book Page
-![Add Book Page](./ui/AddBook.png)
+![Add Book Page](./UI-Screenshots/AddBook.png)
 
 ### Return Book Page
-![Return Book Page](./ui/ReturnBook.png)
+![Return Book Page](./UI-Screenshots/ReturnBook.png)
