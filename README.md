@@ -6,10 +6,10 @@ This project is a Library Management System that allows users to add, borrow, re
 
 To get started with the project, first, clone the repository and install the necessary dependencies:
 
-### `git clone <your-repo-url>`
+### `git clone https://github.com/Striver-3110/LibraryManagementTDD.git`
 Clone the repository to your local machine.
 
-### `cd <your-repo-name>`
+### `cd Library Management TDD`
 Navigate to the project directory.
 
 ### `npm install`
