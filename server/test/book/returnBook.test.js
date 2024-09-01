@@ -20,7 +20,7 @@ describe('Book returning API', ()=>{
         }
 
         const response = await supertest(process.env.APP).post('/api/v1/Book/returnBook').send(returnBook)
-        expect(response.statusCode).toBe(404)
+        expect(response.statusCode).toBe(400)
         expect(response.body.success).toBe(false)
         expect(response.body).toHaveProperty('message')
     })

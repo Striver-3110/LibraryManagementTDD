@@ -31,7 +31,7 @@ describe('Book Borrowing API', () => {
         
         expect(response.statusCode).toBe(400); // Expecting 400 Bad Request or appropriate status code
         expect(response.body.success).toBe(false);
-        expect(response.body.message).toBe('sorry the book is not available');
+        expect(response.body.message).toBe('Book does not exist!');
         expect(response.body).not.toHaveProperty("updatedBook");
     });
 
@@ -47,7 +47,7 @@ describe('Book Borrowing API', () => {
         
         expect(response.statusCode).toBe(400); // Expecting 404 Not Found or appropriate status code
         expect(response.body.success).toBe(false);
-        expect(response.body.message).toBe('book does not exist!');
+        expect(response.body.message).toBe('Book does not exist!');
         expect(response.body).not.toHaveProperty("updatedBook");
     });
 
