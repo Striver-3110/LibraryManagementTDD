@@ -207,15 +207,18 @@
 //     });
 //   }
 // };
-
-
 const { validationResult } = require('express-validator');
 const BookService = require('../services/BookServices');
 
-
+/**
+ * Controller to handle adding a new book to the library.
+ * Validates request data, checks if the book already exists, and adds the book if not.
+ * @param {object} req - The request object containing book details.
+ * @param {object} res - The response object used to send a response.
+ */
 exports.AddBookController = async (req, res) => {
   try {
-    // Validate request data
+    // Validate request data using express-validator
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
       return res.status(400).json({
@@ -225,13 +228,10 @@ exports.AddBookController = async (req, res) => {
       });
     }
 
-    console.log("after returned Errors")
-
     const { ISBN, title, author, yearOfPublish, available, availableCopies } = req.body;
 
-    // Check if book already exists
+    // Check if the book already exists in the library
     const existingBook = await BookService.findBookByISBN(ISBN);
-    // console.log(existingBook)
     if (existingBook) {
       return res.status(400).json({
         success: false,
@@ -239,7 +239,7 @@ exports.AddBookController = async (req, res) => {
       });
     }
 
-    // Add new book
+    // Add new book to the library
     const newBook = await BookService.createBook({ ISBN, title, author, yearOfPublish, available, availableCopies });
 
     return res.status(200).json({
@@ -248,6 +248,7 @@ exports.AddBookController = async (req, res) => {
       newBook,
     });
   } catch (error) {
+    // Handle unexpected errors
     console.error('Error in AddBookController:', error.message);
     return res.status(500).json({
       success: false,
@@ -256,19 +257,27 @@ exports.AddBookController = async (req, res) => {
   }
 };
 
+/**
+ * Controller to handle borrowing a book from the library.
+ * Validates request data and updates the book's status to borrowed if it exists.
+ * @param {object} req - The request object containing the book ISBN.
+ * @param {object} res - The response object used to send a response.
+ */
 exports.BorrowBookController = async (req, res) => {
   try {
+    // Validate request data using express-validator
     const errors = validationResult(req);
-    if(!errors.isEmpty()){
+    if (!errors.isEmpty()) {
       return res.status(400).json({
-        success:false,
+        success: false,
         message: 'Validation errors',
         errors: errors.array(),
-      })
+      });
     }
+
     const { ISBN } = req.body;
 
-    // Validate request data
+    // Validate that ISBN is provided
     if (!ISBN) {
       return res.status(400).json({
         success: false,
@@ -276,7 +285,7 @@ exports.BorrowBookController = async (req, res) => {
       });
     }
 
-    // Borrow book
+    // Attempt to borrow the book by ISBN
     const updatedBook = await BookService.borrowBookByISBN(ISBN);
 
     if (!updatedBook) {
@@ -292,6 +301,7 @@ exports.BorrowBookController = async (req, res) => {
       updatedBook,
     });
   } catch (error) {
+    // Handle unexpected errors
     console.error('Error in BorrowBookController:', error.message);
     return res.status(500).json({
       success: false,
@@ -300,19 +310,27 @@ exports.BorrowBookController = async (req, res) => {
   }
 };
 
+/**
+ * Controller to handle returning a borrowed book to the library.
+ * Validates request data and updates the book's status to available if it exists.
+ * @param {object} req - The request object containing the book ISBN.
+ * @param {object} res - The response object used to send a response.
+ */
 exports.ReturnBookController = async (req, res) => {
   try {
-    const error = validationResult(req)
-    if(!error.isEmpty()){
+    // Validate request data using express-validator
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
       return res.status(400).json({
-        success:false,
-        message:'Validation errors',
-        errors: error.array(),
-      })
+        success: false,
+        message: 'Validation errors',
+        errors: errors.array(),
+      });
     }
+
     const { ISBN } = req.body;
 
-    // Validate request data
+    // Validate that ISBN is provided
     if (!ISBN) {
       return res.status(400).json({
         success: false,
@@ -320,7 +338,7 @@ exports.ReturnBookController = async (req, res) => {
       });
     }
 
-    // Return book
+    // Attempt to return the book by ISBN
     const updatedBook = await BookService.returnBookByISBN(ISBN);
 
     if (!updatedBook) {
@@ -336,6 +354,7 @@ exports.ReturnBookController = async (req, res) => {
       updatedBook,
     });
   } catch (error) {
+    // Handle unexpected errors
     console.error('Error in ReturnBookController:', error.message);
     return res.status(500).json({
       success: false,
@@ -344,8 +363,14 @@ exports.ReturnBookController = async (req, res) => {
   }
 };
 
+/**
+ * Controller to fetch and return all available books in the library.
+ * @param {object} req - The request object (no body required).
+ * @param {object} res - The response object used to send a response.
+ */
 exports.allAvailableBooks = async (req, res) => {
   try {
+    // Fetch all available books from the service
     const availableBooks = await BookService.getAllAvailableBooks();
 
     if (!availableBooks.length) {
@@ -361,6 +386,7 @@ exports.allAvailableBooks = async (req, res) => {
       availableBooks,
     });
   } catch (error) {
+    // Handle unexpected errors
     console.error('Error in allAvailableBooks:', error.message);
     return res.status(500).json({
       success: false,
@@ -369,8 +395,14 @@ exports.allAvailableBooks = async (req, res) => {
   }
 };
 
+/**
+ * Controller to fetch and return all books in the library.
+ * @param {object} req - The request object (no body required).
+ * @param {object} res - The response object used to send a response.
+ */
 exports.allBooks = async (req, res) => {
   try {
+    // Fetch all books from the service
     const allBooks = await BookService.getAllBooks();
 
     if (!allBooks.length) {
@@ -386,6 +418,7 @@ exports.allBooks = async (req, res) => {
       allBooks,
     });
   } catch (error) {
+    // Handle unexpected errors
     console.error('Error in allBooks:', error.message);
     return res.status(500).json({
       success: false,
