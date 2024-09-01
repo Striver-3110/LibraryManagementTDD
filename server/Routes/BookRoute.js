@@ -10,7 +10,7 @@ const {
   allBooks,
 } = require("../Controller/BookController");
 
-router.post("/addNewBook",validateBook, AddBookController);
+router.post('/addNewBook', validateBook, AddBookController);
 router.post("/borrowBook", BorrowBookController);
 router.post("/returnBook", ReturnBookController);
 router.get("/viewAvailableBooks", allAvailableBooks);

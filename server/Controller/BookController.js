@@ -224,10 +224,13 @@ exports.AddBookController = async (req, res) => {
       });
     }
 
+    console.log("after returned Errors")
+
     const { ISBN, title, author, yearOfPublish, available, availableCopies } = req.body;
 
     // Check if book already exists
     const existingBook = await BookService.findBookByISBN(ISBN);
+    // console.log(existingBook)
     if (existingBook) {
       return res.status(400).json({
         success: false,
