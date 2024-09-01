@@ -1,6 +1,7 @@
 const express = require("express");
 const router = express.Router();
 const {validateBook} = require('../middleware/AddBookValidation')
+const {validationISBN} = require('../middleware/ISBNValidation')
 
 const {
   AddBookController,
@@ -11,8 +12,8 @@ const {
 } = require("../Controller/BookController");
 
 router.post('/addNewBook', validateBook, AddBookController);
-router.post("/borrowBook", BorrowBookController);
-router.post("/returnBook", ReturnBookController);
+router.post("/borrowBook", validationISBN, BorrowBookController);
+router.post("/returnBook", validationISBN, ReturnBookController);
 router.get("/viewAvailableBooks", allAvailableBooks);
 router.get("/viewAllBooks", allBooks);
 

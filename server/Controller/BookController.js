@@ -212,6 +212,7 @@
 const { validationResult } = require('express-validator');
 const BookService = require('../services/BookServices');
 
+
 exports.AddBookController = async (req, res) => {
   try {
     // Validate request data
@@ -257,6 +258,14 @@ exports.AddBookController = async (req, res) => {
 
 exports.BorrowBookController = async (req, res) => {
   try {
+    const errors = validationResult(req);
+    if(!errors.isEmpty()){
+      return res.status(400).json({
+        success:false,
+        message: 'Validation errors',
+        errors: errors.array(),
+      })
+    }
     const { ISBN } = req.body;
 
     // Validate request data
@@ -293,6 +302,14 @@ exports.BorrowBookController = async (req, res) => {
 
 exports.ReturnBookController = async (req, res) => {
   try {
+    const error = validationResult(req)
+    if(!error.isEmpty()){
+      return res.status(400).json({
+        success:false,
+        message:'Validation errors',
+        errors: error.array(),
+      })
+    }
     const { ISBN } = req.body;
 
     // Validate request data
