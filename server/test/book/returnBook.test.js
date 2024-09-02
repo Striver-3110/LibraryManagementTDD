@@ -71,33 +71,37 @@ describe('Book returning API', () => {
     });
     
     // // Test for missing ISBN in the request body
-    // test('should return validation error when ISBN is missing in the request body', async () => {
-    //     const returnBook = {};  // Missing ISBN
+    test('should return validation error when ISBN is missing in the request body', async () => {
+        const returnBook = {};  // Missing ISBN
+
+        // jest.spyOn(BookService,'returnBookByISBN').mockResolvedValue(returnBook);
     
-    //     const response = await supertest(process.env.APP)
-    //         .post('/api/v1/Book/returnBook')
-    //         .send(returnBook);
+        const response = await supertest(app)
+            .post('/api/v1/Book/returnBook')
+            .send(returnBook);
+
+        console.log(response.body.errors)
         
-    //     expect(response.statusCode).toBe(400);
-    //     expect(response.body.success).toBe(false);
-    //     expect(response.body.message).toBe('Validation errors');
+        expect(response.statusCode).toBe(400);
+        expect(response.body.success).toBe(false);
+        expect(response.body.message).toBe('Validation errors');
     
     //     // Check if the response contains the required and the string validation errors
-    //     expect(response.body.errors).toEqual(
-    //         expect.arrayContaining([
-    //             expect.objectContaining({
-    //                 msg: 'ISBN is required',
-    //                 path: 'ISBN',
-    //                 location: 'body'
-    //             }),
-    //             expect.objectContaining({
-    //                 msg: 'ISBN must be a string',
-    //                 path: 'ISBN',
-    //                 location: 'body'
-    //             }),
-    //         ])
-    //     );
-    // });
+        expect(response.body.errors).toEqual(
+            expect.arrayContaining([
+                expect.objectContaining({
+                    msg: 'ISBN is required',
+                    path: 'ISBN',
+                    location: 'body'
+                }),
+                expect.objectContaining({
+                    msg: 'ISBN must be a string',
+                    path: 'ISBN',
+                    location: 'body'
+                }),
+            ])
+        );
+    });
     
     
     // // Test for invalid ISBN format (e.g., not a string)
