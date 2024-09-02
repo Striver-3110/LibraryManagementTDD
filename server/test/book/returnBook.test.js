@@ -12,6 +12,84 @@ describe('Book returning API', () => {
     beforeEach(()=>{
         jest.clearAllMocks(); // Clear mocks after each test
     })
+
+    // Test for missing ISBN in the request body
+    test('should return validation error when ISBN is missing in the request body', async () => {
+        const returnBook = {};  // Missing ISBN
+
+        // jest.spyOn(BookService,'returnBookByISBN').mockResolvedValue(returnBook);
+    
+        const response = await supertest(app)
+            .post('/api/v1/Book/returnBook')
+            .send(returnBook);
+
+        // console.log(response.body.errors)
+        
+        expect(response.statusCode).toBe(400);
+        expect(response.body.success).toBe(false);
+        expect(response.body.message).toBe('Validation errors');
+    
+        // Check if the response contains the required and the string validation errors
+        expect(response.body.errors).toEqual(
+            expect.arrayContaining([
+                expect.objectContaining({
+                    msg: 'ISBN is required',
+                    path: 'ISBN',
+                    location: 'body'
+                }),
+                expect.objectContaining({
+                    msg: 'ISBN must be a string',
+                    path: 'ISBN',
+                    location: 'body'
+                }),
+            ])
+        );
+    });
+    // Test for invalid ISBN format (e.g., not a string)
+    test('should return validation error when ISBN is not a string', async () => {
+        const returnBook = {
+            ISBN: 1234567890  // Invalid ISBN format, should be a string
+        };
+
+        const response = await supertest(process.env.APP)
+            .post('/api/v1/Book/returnBook')
+            .send(returnBook);
+
+        // console.log(response.body.errors)
+
+        expect(response.statusCode).toBe(400);
+        expect(response.body.success).toBe(false);
+        expect(response.body.message).toBe('Validation errors');
+        expect()
+        expect(response.body.errors).toEqual(
+            expect.arrayContaining([
+                expect.objectContaining({
+                    type: 'field',
+                    value: 1234567890,
+                    msg: 'ISBN must be a string',       
+                    path: 'ISBN',
+                    location: 'body'
+                }),
+            ])
+        );
+    });
+
+    // Test for book not existing in the database
+    test('should not allow the book to be returned when it does not exist in the database', async () => {
+        const returnBook = {
+            ISBN: "ISBN 01985299"
+        };
+        jest.spyOn(BookService,'returnBookByISBN').mockResolvedValue(null)// there does not exist any book in with specified ISBN
+        const response = await supertest(app)
+            .post('/api/v1/Book/returnBook')
+            .send(returnBook);
+        // console.log(response.body)
+
+        expect(response.statusCode).toBe(400);
+        expect(response.body.success).toBe(false);
+        expect(response.body.message).toBe('Book does not exist');
+        expect(response.body).not.toHaveProperty('updatedBook')
+    });
     
     // Test for successfully returning a borrowed book
     test('should allow the book to be returned when borrowed', async () => {
@@ -53,80 +131,4 @@ describe('Book returning API', () => {
             expect.objectContaining(updatedBook)
         )
     });
-    
-    // Test for book not existing in the database
-    test('should not allow the book to be returned when it does not exist in the database', async () => {
-        const returnBook = {
-            ISBN: "ISBN 01985299"
-        };
-        jest.spyOn(BookService,'returnBookByISBN').mockResolvedValue(null)// there does not exist any book in with specified ISBN
-        const response = await supertest(app)
-            .post('/api/v1/Book/returnBook')
-            .send(returnBook);
-        console.log(response.body)
-
-        expect(response.statusCode).toBe(400);
-        // expect(response.body.success).toBe(false);
-        expect(response.body.message).toBe('Book does not exist');
-    });
-    
-    // // Test for missing ISBN in the request body
-    test('should return validation error when ISBN is missing in the request body', async () => {
-        const returnBook = {};  // Missing ISBN
-
-        // jest.spyOn(BookService,'returnBookByISBN').mockResolvedValue(returnBook);
-    
-        const response = await supertest(app)
-            .post('/api/v1/Book/returnBook')
-            .send(returnBook);
-
-        console.log(response.body.errors)
-        
-        expect(response.statusCode).toBe(400);
-        expect(response.body.success).toBe(false);
-        expect(response.body.message).toBe('Validation errors');
-    
-    //     // Check if the response contains the required and the string validation errors
-        expect(response.body.errors).toEqual(
-            expect.arrayContaining([
-                expect.objectContaining({
-                    msg: 'ISBN is required',
-                    path: 'ISBN',
-                    location: 'body'
-                }),
-                expect.objectContaining({
-                    msg: 'ISBN must be a string',
-                    path: 'ISBN',
-                    location: 'body'
-                }),
-            ])
-        );
-    });
-    
-    
-    // // Test for invalid ISBN format (e.g., not a string)
-    // test('should return validation error when ISBN is not a string', async () => {
-    //     const returnBook = {
-    //         ISBN: 1234567890  // Invalid ISBN format, should be a string
-    //     };
-
-    //     const response = await supertest(process.env.APP)
-    //         .post('/api/v1/Book/returnBook')
-    //         .send(returnBook);
-        
-    //     expect(response.statusCode).toBe(400);
-    //     expect(response.body.success).toBe(false);
-    //     expect(response.body.message).toBe('Validation errors');
-    //     expect(response.body.errors).toEqual(
-    //         expect.arrayContaining([
-    //             expect.objectContaining({
-    //                 msg: 'ISBN must be a string',
-    //                 path: 'ISBN',
-    //                 location: 'body',
-    //                 value: 1234567890,
-    //                 type: 'field',
-    //             }),
-    //         ])
-    //     );
-    // });
 });
