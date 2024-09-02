@@ -90,18 +90,18 @@ describe('View Available Books API', () => {
 
     //! failing test case
 
-    // test('should return internal server error when an unexpected error occurs', async () => {
-         // Mock the getAllAvailableBooks method to throw an error
-    //     jest.spyOn(BookService, 'getAllAvailableBooks').mockRejectedValue(new Error('Unexpected error'));
+    test('should return internal server error when an unexpected error occurs', async () => {
+        //  Mock the getAllAvailableBooks method to throw an error
+        jest.spyOn(BookService, 'getAllAvailableBooks').mockRejectedValue(new Error('Unexpected error'));
 
-    //     const response = await supertest(process.env.APP).get('/api/v1/Book/viewAvailableBooks');
+        const response = await supertest(app).get('/api/v1/Book/viewAvailableBooks');
 
-    //     expect(response.statusCode).toBe(500);
-    //     expect(response.body.success).toBe(false);
-    //     expect(response.body.message).toBe('Internal Server Error');
+        expect(response.statusCode).toBe(500);
+        expect(response.body.success).toBe(false);
+        expect(response.body.message).toBe('Internal Server Error');
 
-    //     jest.restoreAllMocks();
-    // });
+        jest.restoreAllMocks();
+    });
 
     /**
      * Test case for checking the response structure.
