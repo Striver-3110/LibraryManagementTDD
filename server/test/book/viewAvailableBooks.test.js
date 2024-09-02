@@ -3,6 +3,8 @@ require('dotenv').config();
 const BookService = require('../../services/BookServices'); // Adjust the path as per your project structure
 jest.mock('../../services/BookServices');
 
+const app = require('../../app');
+
 describe('View Available Books API', () => {
 
     /**
@@ -14,26 +16,25 @@ describe('View Available Books API', () => {
         jest.clearAllMocks(); // Clear mocks after each test
     });
     //! failing test case
+    test('should return all the available books', async () => {
+        // Mock the getAllAvailableBooks method to return a list of books
+        const mockBooks = [
+            { ISBN: 'ISBN 01985267', title: 'Java Programming', author: 'John Doe', availableCopies: 10, available: true },
+            { ISBN: 'ISBN 01234567', title: 'Python Programming', author: 'Jane Doe', availableCopies: 5, available: true },
+        ];
+        jest.spyOn(BookService, 'getAllAvailableBooks').mockReturnValue(mockBooks);
+        // BookService.getAllAvailableBooks.mockResolvedValue(mockBooks);
 
-    // test('should return all the available books', async () => {
-    //     // Mock the getAllAvailableBooks method to return a list of books
-    //     const mockBooks = [
-    //         { ISBN: 'ISBN 01985267', title: 'Java Programming', author: 'John Doe', availableCopies: 10, available: true },
-    //         { ISBN: 'ISBN 01234567', title: 'Python Programming', author: 'Jane Doe', availableCopies: 5, available: true },
-    //     ];
-    //     jest.spyOn(BookService, 'getAllAvailableBooks').mockReturnValue(mockBooks);
-    //     // BookService.getAllAvailableBooks.mockResolvedValue(mockBooks);
+        const response = await supertest(app).get('/api/v1/Book/viewAvailableBooks');
 
-    //     const response = await supertest(process.env.APP).get('/api/v1/Book/viewAvailableBooks');
+        expect(response.statusCode).toBe(200);
+        expect(response.body.success).toBe(true);
+        expect(response.body.message).toBe('All the available books returned successfully');
+        expect(response.body).toHaveProperty('availableBooks');
+        expect(response.body.availableBooks).toEqual(mockBooks);
 
-    //     expect(response.statusCode).toBe(200);
-    //     expect(response.body.success).toBe(true);
-    //     expect(response.body.message).toBe('All the available books returned successfully');
-    //     expect(response.body).toHaveProperty('availableBooks');
-    //     expect(response.body.availableBooks).toEqual(mockBooks);
-
-    //     jest.restoreAllMocks();
-    // });
+        // jest.restoreAllMocks();
+    });
 
     /**
      * Test case for no available books.
