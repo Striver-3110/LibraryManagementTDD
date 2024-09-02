@@ -10,7 +10,7 @@ describe('View Available Books API', () => {
      * This test simulates a successful scenario where books are available.
      */
 
-    afterEach(() => {
+    beforeEach(() => {
         jest.clearAllMocks(); // Clear mocks after each test
     });
     //! failing test case
@@ -18,11 +18,11 @@ describe('View Available Books API', () => {
     // test('should return all the available books', async () => {
     //     // Mock the getAllAvailableBooks method to return a list of books
     //     const mockBooks = [
-    //         { ISBN: 'ISBN 01985267', title: 'Java Programming', author: 'John Doe', availableCopies: 10 },
-    //         { ISBN: 'ISBN 01234567', title: 'Python Programming', author: 'Jane Doe', availableCopies: 5 },
+    //         { ISBN: 'ISBN 01985267', title: 'Java Programming', author: 'John Doe', availableCopies: 10, available: true },
+    //         { ISBN: 'ISBN 01234567', title: 'Python Programming', author: 'Jane Doe', availableCopies: 5, available: true },
     //     ];
-    //     // jest.spyOn(BookService, 'getAllAvailableBooks').mockResolvedValue(mockBooks);
-    //     BookService.getAllAvailableBooks.mockResolvedValue(mockBooks);
+    //     jest.spyOn(BookService, 'getAllAvailableBooks').mockReturnValue(mockBooks);
+    //     // BookService.getAllAvailableBooks.mockResolvedValue(mockBooks);
 
     //     const response = await supertest(process.env.APP).get('/api/v1/Book/viewAvailableBooks');
 

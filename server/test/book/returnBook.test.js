@@ -58,7 +58,7 @@ describe('Book returning API', () => {
                     msg: 'ISBN must be a string',
                     path: 'ISBN',
                     location: 'body'
-                })
+                }),
             ])
         );
     });

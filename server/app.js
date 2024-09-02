@@ -3,6 +3,7 @@ const express = require("express");
 const app = express();
 const PORT = process.env.PORT || 5001;
 const BookRoutes = require('./Routes/BookRoute');
+const UserRoutes = require('./Routes/UserRoute');
 const { connectToMongo } = require('./config/database');
 
 //? Middleware to parse JSON bodies
@@ -14,6 +15,7 @@ connectToMongo();
 
 //? API routes
 app.use('/api/v1/Book', BookRoutes);
+app.use('/api/v1/User', UserRoutes);
 
 //? Root route
 app.get('/', (req, res) => {
