@@ -154,20 +154,20 @@ describe('View Available Books API', () => {
      * Test case for checking the performance of the API.
      * This test ensures the API responds within an acceptable time limit.
      */
-    // test('should return books within an acceptable response time', async () => {
-    //     const mockBooks = [
-    //         { ISBN: 'ISBN 01985267', title: 'Java Programming', author: 'John Doe', availableCopies: 10 },
-    //     ];
-    //     jest.spyOn(BookService, 'getAllAvailableBooks').mockResolvedValue(mockBooks);
+    test('should return books within an acceptable response time', async () => {
+        const mockBooks = [
+            { ISBN: 'ISBN 01985267', title: 'Java Programming', author: 'John Doe', availableCopies: 10 },
+        ];
+        jest.spyOn(BookService, 'getAllAvailableBooks').mockResolvedValue(mockBooks);
 
-    //     const startTime = Date.now();
-    //     const response = await supertest(process.env.APP).get('/api/v1/Book/viewAvailableBooks');
-    //     const endTime = Date.now();
+        const startTime = Date.now();
+        const response = await supertest(process.env.APP).get('/api/v1/Book/viewAvailableBooks');
+        const endTime = Date.now();
 
-    //     const responseTime = endTime - startTime;
-    //     expect(responseTime).toBeLessThan(1000); // Expect response within 1 second
-    //     expect(response.statusCode).toBe(200);
+        const responseTime = endTime - startTime;
+        expect(responseTime).toBeLessThan(1000); // Expect response within 1 second
+        expect(response.statusCode).toBe(200);
 
-    //     jest.restoreAllMocks();
-    // });
+        jest.restoreAllMocks();
+    });
 });
