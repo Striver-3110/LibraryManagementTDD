@@ -355,7 +355,7 @@ exports.ReturnBookController = async (req, res) => {
     });
   } catch (error) {
     // Handle unexpected errors
-    console.error('Error in ReturnBookController:', error.message);
+    console.error('Error in ReturnBookController:', error);
     return res.status(500).json({
       success: false,
       message: 'Internal Server Error',
@@ -388,7 +388,7 @@ exports.allAvailableBooks = async (req, res) => {
     });
   } catch (error) {
     // Handle unexpected errors
-    console.error('Error in allAvailableBooks:', error.message);
+    // console.error('Error in allAvailableBooks:', error);
     return res.status(500).json({
       success: false,
       message: 'Internal Server Error',
@@ -420,7 +420,7 @@ exports.allBooks = async (req, res) => {
     });
   } catch (error) {
     // Handle unexpected errors
-    console.error('Error in allBooks:', error.message);
+    // console.error('Error in allBooks:', error);
     return res.status(500).json({
       success: false,
       message: 'Internal Server Error',
