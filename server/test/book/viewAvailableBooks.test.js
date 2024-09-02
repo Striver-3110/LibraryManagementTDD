@@ -1,6 +1,6 @@
 const supertest = require('supertest');
 require('dotenv').config();
-const BookService = require('../../services/BookServices'); // Adjust the path as per your project structure
+const BookService = require('../../services/BookServices');
 jest.mock('../../services/BookServices');
 
 const app = require('../../app');
