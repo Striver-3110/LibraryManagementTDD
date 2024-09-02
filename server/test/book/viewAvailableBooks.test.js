@@ -136,19 +136,19 @@ describe('View Available Books API', () => {
      */
     //! failing test case
 
-    // test('should return an empty array when no books are available', async () => {
-    //     jest.spyOn(BookService, 'getAllAvailableBooks').mockResolvedValue([]);
+    test('should return an empty array when no books are available', async () => {
+        jest.spyOn(BookService, 'getAllAvailableBooks').mockResolvedValue([]);
 
-    //     const response = await supertest(process.env.APP).get('/api/v1/Book/viewAvailableBooks');
+        const response = await supertest(app).get('/api/v1/Book/viewAvailableBooks');
 
-    //     expect(response.statusCode).toBe(400);
-    //     expect(response.body.success).toBe(false);
-    //     expect(response.body.message).toBe('No books available');
-    //     expect(response.body).toHaveProperty('availableBooks');
-    //     expect(response.body.availableBooks).toEqual([]);
+        expect(response.statusCode).toBe(400);
+        expect(response.body.success).toBe(false);
+        expect(response.body.message).toBe('No books available');
+        expect(response.body).toHaveProperty('availableBooks');
+        expect(response.body.availableBooks).toEqual([]);
 
-    //     jest.restoreAllMocks();
-    // });
+        jest.restoreAllMocks();
+    });
 
     /**
      * Test case for checking the performance of the API.
