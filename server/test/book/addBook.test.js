@@ -1,29 +1,39 @@
 const supertest = require('supertest');
 require('dotenv').config();
 const BookService = require('../../services/BookServices')
+const app = require('../../app');
+jest.mock('../../services/BookServices')
 
 describe('Book Addition API', () => {
     
     // Test for successfully adding a new book
     test('should successfully add a new book', async () => {
-        const newBook = {
-            ISBN: "ISBN 24934252",
-            title: "Strive Your Way",
-            author: "Jay",
-            yearOfPublish: 2009,
-            available: true,
-            availableCopies: 10,
-        };
 
-        const response = await supertest(process.env.APP)
-            .post('/api/v1/Book/addNewBook')
-            .send(newBook);
+        // status-200
+        // success-true
+        // bookAdded
+        // message- the book added successfully
+        // bookAdded matches requirements
 
-        expect(response.statusCode).toBe(200);
-        expect(response.body.success).toBe(true);
-        expect(response.body.message).toBe('Book added successfully!');
+        const book = {
+            ISBN:'ISBN 24934252',
+            title:'T1',
+            author:'A1',
+            available:true,
+            availableCopies:5,
+            yearOfPublish:1999
+        }
+
+        // mock the addBook function first
+        jest.spyOn(BookService,'createBook').mockResolvedValue(book);
+
+        const response = await supertest(app).post('/api/v1/Book/addNewBook').send(book)
+
+        expect(response.statusCode).toBe(200); // book addition success
         expect(response.body).toHaveProperty('newBook');
-        expect(response.body.newBook).toMatchObject(newBook);
+        expect(response.body.message).toBe('Book added successfully!')
+        expect(response.body.success).toBeTruthy();
+        expect(response.body.newBook).toEqual(book);
     });
 
     // Test for attempting to add a book that already exists
@@ -38,9 +48,7 @@ describe('Book Addition API', () => {
         };
 
         // First, add the book to ensure it exists in the database
-        await supertest(process.env.APP)
-            .post('/api/v1/Book/addNewBook')
-            .send(existingBook);
+        jest.spyOn(BookService,'findBookByISBN').mockResolvedValue(existingBook);
 
         // Attempt to add the same book again
         const response = await supertest(process.env.APP)
@@ -58,7 +66,7 @@ describe('Book Addition API', () => {
             ISBN: "ISBN 01985268", // Missing other required fields
         };
     
-        const response = await supertest(process.env.APP)
+        const response = await supertest(app)
             .post('/api/v1/Book/addNewBook')
             .send(incompleteBook);
     
@@ -88,7 +96,7 @@ describe('Book Addition API', () => {
             availableCopies: "5"  // Should be a number
         };
     
-        const response = await supertest(process.env.APP)
+        const response = await supertest(app)
             .post('/api/v1/Book/addNewBook')
             .send(invalidBook);
     
@@ -109,7 +117,34 @@ describe('Book Addition API', () => {
             ])
         );
         
+        
     });
+    // responds within specified time interval
+    test('should respond within specified time interval : 1sec',async()=>{
+        const book = {
+            ISBN: "ISBN 121985267",
+            title: "Strive Your Way",
+            author: "Jay",
+            yearOfPublish: 2009,
+            available: true,
+            availableCopies: 10,
+        };
+        jest.spyOn(BookService,'findBookByISBN').mockResolvedValue(null);
+        jest.spyOn(BookService,'createBook').mockResolvedValue(book);
+
+        const startTime = Date.now();
+        const response = await supertest(app).post('/api/v1/Book/addNewBook').send(book)
+        const endTime = Date.now();
+
+        console.log(response.body)
+
+        const responseTime = endTime - startTime;
+        expect(responseTime).toBeLessThan(500);
+        expect(response.statusCode).toBe(200)
+        expect(response.body.success).toBeTruthy();
+        expect(response.body).toHaveProperty('newBook')
+        expect(response.body.message).toBe('Book added successfully!')
+    })
     
     
     

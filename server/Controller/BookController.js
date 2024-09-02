@@ -294,6 +294,12 @@ exports.BorrowBookController = async (req, res) => {
         message: 'Book does not exist!',
       });
     }
+    if(!updatedBook.available){
+      return res.status(400).json({
+        success:false,
+        message:'Sorry the book is not available!'
+      })
+    }
 
     return res.status(200).json({
       success: true,
