@@ -438,6 +438,14 @@ exports.deleteBookController = async(req,res) =>{
   try {
     const {ISBN} = req.body;
 
+    const errors = validationResult(req);
+    if(!errors.isEmpty()){
+      return res.status(400).json({
+        success:false,
+        message:'Validation Error'
+      })
+    }
+
     if(!ISBN){
       return res.status(400).json({
         success:false,
@@ -460,7 +468,7 @@ exports.deleteBookController = async(req,res) =>{
       message:'book deleted successfully',
       deletedBook
     })
-    
+
     } catch (error) {
       console.log(error)
       return res.status(500).json({
