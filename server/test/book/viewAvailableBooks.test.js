@@ -16,7 +16,6 @@ describe('View Available Books API', () => {
         jest.clearAllMocks(); // Clear mocks after each test
     });
 
-
     //? Passed
         /////! failing test case
                 /**

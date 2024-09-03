@@ -433,3 +433,39 @@ exports.allBooks = async (req, res) => {
     });
   }
 };
+
+exports.deleteBookController = async(req,res) =>{
+  try {
+    const {ISBN} = req.body;
+
+    if(!ISBN){
+      return res.status(400).json({
+        success:false,
+        message:'ISBN is not available'
+      })
+    }
+
+    const availableBook = await BookService.findBookByISBN(ISBN);
+    if(!availableBook){
+      return res.status(400).json({
+        success:false,
+        message:"book does not exists"
+      })
+    }
+
+    const deletedBook = await BookService.deleteBook(ISBN);
+    console.log(deletedBook)
+    return res.status(200).json({
+      success:true,
+      message:'book deleted successfully',
+      deletedBook
+    })
+    
+    } catch (error) {
+      console.log(error)
+      return res.status(500).json({
+        success:false,
+        message:"Internal server error"
+      })
+    }
+}

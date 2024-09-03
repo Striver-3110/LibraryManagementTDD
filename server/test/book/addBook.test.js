@@ -6,6 +6,12 @@ jest.mock('../../services/BookServices')
 
 describe('Book Addition API', () => {
     
+    beforeEach(()=>{
+        jest.clearAllMocks();
+    })
+    afterAll(async()=>{
+        await require('mongoose').disconnect()
+    })
     // Test for successfully adding a new book
     test('should successfully add a new book', async () => {
 
@@ -16,14 +22,14 @@ describe('Book Addition API', () => {
         // bookAdded matches requirements
 
         const book = {
-            ISBN:'ISBN 24934252',
-            title:'T1',
-            author:'A1',
+            ISBN:'ISBN 149334252',
+            title:'TT1',
+            author:'A11',
             available:true,
             availableCopies:5,
             yearOfPublish:1999
         }
-
+        jest.spyOn(BookService,'findBookByISBN').mockResolvedValue(null)
         // mock the addBook function first
         jest.spyOn(BookService,'createBook').mockResolvedValue(book);
 
@@ -51,7 +57,7 @@ describe('Book Addition API', () => {
         jest.spyOn(BookService,'findBookByISBN').mockResolvedValue(existingBook);
 
         // Attempt to add the same book again
-        const response = await supertest(process.env.APP)
+        const response = await supertest(app)
             .post('/api/v1/Book/addNewBook')
             .send(existingBook);
 
@@ -76,6 +82,11 @@ describe('Book Addition API', () => {
         expect(response.body).toHaveProperty('errors');
         expect(response.body.errors).toEqual(
             expect.arrayContaining([
+                expect.objectContaining({
+                    msg: expect.any(String),
+                    path: expect.any(String), 
+                    location: expect.any(String),
+                }),
                 expect.objectContaining({
                     msg: expect.any(String),
                     path: expect.any(String), 
@@ -145,9 +156,6 @@ describe('Book Addition API', () => {
         expect(response.body).toHaveProperty('newBook')
         expect(response.body.message).toBe('Book added successfully!')
     })
-    
-    
-    
     
     
 });

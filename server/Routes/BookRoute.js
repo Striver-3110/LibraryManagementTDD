@@ -12,6 +12,7 @@ const {
   ReturnBookController,
   allAvailableBooks,
   allBooks,
+  deleteBookController
 } = require("../Controller/BookController");
 
 // Route for adding a new book
@@ -31,6 +32,9 @@ router.get("/viewAvailableBooks", allAvailableBooks);
 
 // Route for viewing all books in the library
 router.get("/viewAllBooks", allBooks);
+
+//Route for deleting a book
+router.post('/deleteBook', deleteBookController);
 
 // Export the router to be used in the main application
 module.exports = router;

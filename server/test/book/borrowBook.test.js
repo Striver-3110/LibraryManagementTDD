@@ -11,9 +11,9 @@ describe('Book Borrowing API', () => {
     beforeEach(()=>{
         jest.clearAllMocks();// clear all mocks before each test
     })
-    afterEach(()=>{
-        jest.restoreAllMocks();
-    })
+    // afterEach(()=>{
+    //     jest.restoreAllMocks();
+    // })
 
     // Test for successfully borrowing an available book
     test('should allow the book to be borrowed when available', async () => {
@@ -38,7 +38,7 @@ describe('Book Borrowing API', () => {
                 yearOfPublish:2003,
                 available:true,
             }
-            await supertest(app).post('/api/v1/Book/addNewBook').send(newBook)
+            // await supertest(app).post('/api/v1/Book/addNewBook').send(newBook)
             jest.spyOn(BookService,'borrowBookByISBN').mockResolvedValue(updatedBook)
             const response = await supertest(app)
                 .post('/api/v1/Book/borrowBook')
@@ -109,5 +109,4 @@ describe('Book Borrowing API', () => {
             console.log(error)
         }
     });
-
 });

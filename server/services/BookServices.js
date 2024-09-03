@@ -63,6 +63,10 @@ const getAllBooks = async () => {
   return await Book.find();
 };
 
+const deleteBook = async(ISBN)=>{
+  return await Book.findOneAndDelete({ISBN},{new:true});
+}
+
 module.exports = {
   findBookByISBN,
   createBook,
@@ -70,4 +74,5 @@ module.exports = {
   returnBookByISBN,
   getAllAvailableBooks,
   getAllBooks,
+  deleteBook,
 };

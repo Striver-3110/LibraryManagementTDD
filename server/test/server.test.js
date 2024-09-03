@@ -4,13 +4,6 @@ const { describe } = require('node:test');
 const APP = 'http://localhost:5001';
 
 describe('server is running properly',()=>{
-    
-    // let app;
-    // beforeAll(()=>{
-    //     // Initialize the express app
-    //     app = express();
-    // })
-    
     // should respond to the GET request at the root url
     test('should respond to the GET request at the root url',async()=>{
         const response = await supertest(APP).get('/');
