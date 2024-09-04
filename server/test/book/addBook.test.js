@@ -143,7 +143,7 @@ describe("Book Addition API", () => {
       .send(book);
     const endTime = Date.now();
 
-    console.log(response.body);
+    // console.log(response.body);
 
     const responseTime = endTime - startTime;
     expect(responseTime).toBeLessThan(500);

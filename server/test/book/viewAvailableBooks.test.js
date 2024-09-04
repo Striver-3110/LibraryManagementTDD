@@ -60,7 +60,7 @@ describe('View Available Books API', () => {
     
             jest.restoreAllMocks();
         } catch (error) {
-            console.log(error.stack)
+            // console.log(error.stack)
         }
         
     });
@@ -85,7 +85,7 @@ describe('View Available Books API', () => {
 
         jest.restoreAllMocks();
         } catch (error) {
-            console.log(error)
+            // console.log(error)
         }
         // Mock the getAllAvailableBooks method to return an empty array
         
@@ -111,7 +111,7 @@ describe('View Available Books API', () => {
 
         jest.restoreAllMocks();
         } catch (error) {
-            console.log(error)
+            // console.log(error)
         }
     });
 
@@ -137,7 +137,7 @@ describe('View Available Books API', () => {
     
             jest.restoreAllMocks();
         } catch (error) {
-            console.log(error)
+            // console.log(error)
         }
         
     });
@@ -164,7 +164,7 @@ describe('View Available Books API', () => {
     
             jest.restoreAllMocks();
         }catch (error){
-            console.log(error)
+            // console.log(error)
         }
         
     });
@@ -190,7 +190,7 @@ describe('View Available Books API', () => {
     
             jest.restoreAllMocks();
         } catch (error) {
-            console.log(error)
+            // console.log(error)
         }
         
     });

@@ -47,7 +47,7 @@ describe('Book returning API', () => {
                 ])
             );
         } catch (error) {
-            console.log(error); // Log any unexpected errors for debugging
+            // console.log(error); // Log any unexpected errors for debugging
         }
     });
 
@@ -82,7 +82,7 @@ describe('Book returning API', () => {
                 ])
             );
         } catch (error) {
-            console.log(error); // Log any unexpected errors for debugging
+            // console.log(error); // Log any unexpected errors for debugging
         }
     });
 
@@ -109,7 +109,7 @@ describe('Book returning API', () => {
             // Ensure the response does not contain an 'updatedBook' property
             expect(response.body).not.toHaveProperty('updatedBook');
         } catch (error) {
-            console.log(error); // Log any unexpected errors for debugging
+            // console.log(error); // Log any unexpected errors for debugging
         }
     });
 
@@ -161,7 +161,7 @@ describe('Book returning API', () => {
                 expect.objectContaining(updatedBook)
             );
         } catch (error) {
-            console.log(error); // Log any unexpected errors for debugging
+            // console.log(error); // Log any unexpected errors for debugging
         }
     });
 
@@ -192,7 +192,7 @@ describe('Book returning API', () => {
 
             // Verify that the response time is less than 1000 ms (1 second)
             expect(responseTime).toBeLessThan(1000);
-            console.log("Response Time:", responseTime, "ms");
+            // console.log("Response Time:", responseTime, "ms");
 
             // Verify that the response status is 200 (OK)
             expect(response.statusCode).toBe(200);
@@ -201,7 +201,7 @@ describe('Book returning API', () => {
             // Ensure the response contains the 'updatedBook' property
             expect(response.body).toHaveProperty('updatedBook');
         } catch (error) {
-            console.log(error); // Log any unexpected errors for debugging
+            // console.log(error); // Log any unexpected errors for debugging
         }
     });
 });
