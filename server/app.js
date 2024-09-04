@@ -30,17 +30,22 @@ app.use((req, res, next) => {
     });
 });
 
-//? Start the server
-const start = () => {
-    try {
-        app.listen(PORT, () => {
-            console.log(`app is running at port : ${PORT}`);
-        });
-    } catch (error) {
-        console.log(error);
-    }
-}
 
-start();
+if(process.env.NODE_ENV !== 'test')
+    {
+        const start = () => {
+            try {
+                app.listen(PORT, () => {
+                    console.log(`app is running at port : ${PORT}`);
+                });
+            } catch (error) {
+                console.log(error);
+            }
+        }
+        
+        start();
+    }
+//? Start the server
+
 
 module.exports = app;
