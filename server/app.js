@@ -1,5 +1,5 @@
 //? imports
-const express = require("express");
+const express = require('express');
 const app = express();
 const PORT = process.env.PORT || 5001;
 const BookRoutes = require('./Routes/BookRoute');
@@ -19,33 +19,30 @@ app.use('/api/v1/User', UserRoutes);
 
 //? Root route
 app.get('/', (req, res) => {
-    return res.status(200).send('Hello from server');
+  return res.status(200).send('Hello from server');
 });
 
 //? Middleware to handle 404 errors for non-existent routes
-app.use((req, res, next) => {
-    return res.status(404).json({
-        success: false,
-        message: "Route not found"
-    });
+app.use((req, res) => {
+  return res.status(404).json({
+    success: false,
+    message: 'Route not found',
+  });
 });
 
-
-if(process.env.NODE_ENV !== 'test')
-    {
-        const start = () => {
-            try {
-                app.listen(PORT, () => {
-                    console.log(`app is running at port : ${PORT}`);
-                });
-            } catch (error) {
-                console.log(error);
-            }
-        }
-        
-        start();
+if (process.env.NODE_ENV !== 'test') {
+  const start = () => {
+    try {
+      app.listen(PORT, () => {
+        console.log(`app is running at port : ${PORT}`);
+      });
+    } catch (error) {
+      console.log(error);
     }
-//? Start the server
+  };
 
+  start();
+}
+//? Start the server
 
 module.exports = app;

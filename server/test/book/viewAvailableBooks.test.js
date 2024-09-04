@@ -7,18 +7,18 @@ const app = require('../../app');
 
 describe('View Available Books API', () => {
 
-    /**
+  /**
      * Test case for successfully retrieving all available books.
      * This test simulates a successful scenario where books are available.
      */
 
-    beforeEach(() => {
-        jest.clearAllMocks(); // Clear mocks after each test
-    });
+  beforeEach(() => {
+    jest.clearAllMocks(); // Clear mocks after each test
+  });
 
-    //? Passed
-        /////! failing test case
-                /**
+  //? Passed
+  /////! failing test case
+  /**
              * Key Changes Summary:
              * 
              * 1. **Mocking the BookService**:
@@ -40,158 +40,158 @@ describe('View Available Books API', () => {
              */
 
 
-    test('should return all the available books', async () => {
-        try {
-            const mockBooks = [
-                { ISBN: 'ISBN 01985267', title: 'Java Programming', author: 'John Doe', availableCopies: 10 },
-                { ISBN: 'ISBN 01234567', title: 'Python Programming', author: 'Jane Doe', availableCopies: 5 },
-            ];
-            // Mock the getAllAvailableBooks method to return a list of books
-            jest.spyOn(BookService, 'getAllAvailableBooks').mockResolvedValue(mockBooks);
-            // BookService.getAllAvailableBooks.mockResolvedValue(mockBooks);
+  test('should return all the available books', async () => {
+    try {
+      const mockBooks = [
+        { ISBN: 'ISBN 01985267', title: 'Java Programming', author: 'John Doe', availableCopies: 10 },
+        { ISBN: 'ISBN 01234567', title: 'Python Programming', author: 'Jane Doe', availableCopies: 5 },
+      ];
+      // Mock the getAllAvailableBooks method to return a list of books
+      jest.spyOn(BookService, 'getAllAvailableBooks').mockResolvedValue(mockBooks);
+      // BookService.getAllAvailableBooks.mockResolvedValue(mockBooks);
     
-            const response = await supertest(app).get('/api/v1/Book/viewAvailableBooks');
+      const response = await supertest(app).get('/api/v1/Book/viewAvailableBooks');
     
-            expect(response.statusCode).toBe(200);
-            expect(response.body.success).toBe(true);
-            expect(response.body.message).toBe('All the available books returned successfully');
-            expect(response.body).toHaveProperty('availableBooks');
-            expect(response.body.availableBooks).toEqual(mockBooks);
+      expect(response.statusCode).toBe(200);
+      expect(response.body.success).toBe(true);
+      expect(response.body.message).toBe('All the available books returned successfully');
+      expect(response.body).toHaveProperty('availableBooks');
+      expect(response.body.availableBooks).toEqual(mockBooks);
     
-            jest.restoreAllMocks();
-        } catch (error) {
-            // console.log(error.stack)
-        }
+      jest.restoreAllMocks();
+    } catch (error) {
+      // console.log(error.stack)
+    }
         
-    });
+  });
 
-    /**
+  /**
      * Test case for no available books.
      * This test simulates a scenario where no books are available in the library.
      */
 
 
-    //? Passed
-            /////! failing test case
-    test('should return no books available when the library is empty', async () => {
-        try {
-            jest.spyOn(BookService, 'getAllAvailableBooks').mockResolvedValue([]);
+  //? Passed
+  /////! failing test case
+  test('should return no books available when the library is empty', async () => {
+    try {
+      jest.spyOn(BookService, 'getAllAvailableBooks').mockResolvedValue([]);
 
-            const response = await supertest(app).get('/api/v1/Book/viewAvailableBooks');// replaced process.evv.APP to  app object
+      const response = await supertest(app).get('/api/v1/Book/viewAvailableBooks');// replaced process.evv.APP to  app object
 
-            expect(response.statusCode).toBe(400);
-            expect(response.body.success).toBe(false);
-            expect(response.body.message).toBe('No books available');
+      expect(response.statusCode).toBe(400);
+      expect(response.body.success).toBe(false);
+      expect(response.body.message).toBe('No books available');
 
-        jest.restoreAllMocks();
-        } catch (error) {
-            // console.log(error)
-        }
-        // Mock the getAllAvailableBooks method to return an empty array
+      jest.restoreAllMocks();
+    } catch (error) {
+      // console.log(error)
+    }
+    // Mock the getAllAvailableBooks method to return an empty array
         
-    });
+  });
 
-    /**
+  /**
      * Test case for handling unexpected errors.
      * This test simulates a scenario where an unexpected error occurs in the service.
      */
 
-    //? Passed
-    /////! failing test case
-    test('should return internal server error when an unexpected error occurs', async () => {
-        try {
-        //  Mock the getAllAvailableBooks method to throw an error
-        jest.spyOn(BookService, 'getAllAvailableBooks').mockRejectedValue(new Error('Unexpected error'));
+  //? Passed
+  /////! failing test case
+  test('should return internal server error when an unexpected error occurs', async () => {
+    try {
+      //  Mock the getAllAvailableBooks method to throw an error
+      jest.spyOn(BookService, 'getAllAvailableBooks').mockRejectedValue(new Error('Unexpected error'));
 
-        const response = await supertest(app).get('/api/v1/Book/viewAvailableBooks');
+      const response = await supertest(app).get('/api/v1/Book/viewAvailableBooks');
 
-        expect(response.statusCode).toBe(500);
-        expect(response.body.success).toBe(false);
-        expect(response.body.message).toBe('Internal Server Error');
+      expect(response.statusCode).toBe(500);
+      expect(response.body.success).toBe(false);
+      expect(response.body.message).toBe('Internal Server Error');
 
-        jest.restoreAllMocks();
-        } catch (error) {
-            // console.log(error)
-        }
-    });
+      jest.restoreAllMocks();
+    } catch (error) {
+      // console.log(error)
+    }
+  });
 
-    /**
+  /**
      * Test case for checking the response structure.
      * This test ensures that the response contains the expected keys and values.
      */
-    test('should contain the correct response structure', async () => {
-        try {
-            const mockBooks = [
-                { ISBN: 'ISBN 01985267', title: 'Java Programming', author: 'John Doe', availableCopies: 10 },
-            ];
-            jest.spyOn(BookService, 'getAllAvailableBooks').mockResolvedValue(mockBooks);
+  test('should contain the correct response structure', async () => {
+    try {
+      const mockBooks = [
+        { ISBN: 'ISBN 01985267', title: 'Java Programming', author: 'John Doe', availableCopies: 10 },
+      ];
+      jest.spyOn(BookService, 'getAllAvailableBooks').mockResolvedValue(mockBooks);
     
-            const response = await supertest(app).get('/api/v1/Book/viewAvailableBooks');
+      const response = await supertest(app).get('/api/v1/Book/viewAvailableBooks');
     
-            expect(response.statusCode).toBe(200);
-            expect(response.body.success).toBe(true);
-            expect(response.body).toHaveProperty('message', 'All the available books returned successfully');
-            expect(response.body).toHaveProperty('availableBooks');
-            expect(Array.isArray(response.body.availableBooks)).toBe(true);
-            expect(response.body.availableBooks.length).toBeGreaterThan(0);
+      expect(response.statusCode).toBe(200);
+      expect(response.body.success).toBe(true);
+      expect(response.body).toHaveProperty('message', 'All the available books returned successfully');
+      expect(response.body).toHaveProperty('availableBooks');
+      expect(Array.isArray(response.body.availableBooks)).toBe(true);
+      expect(response.body.availableBooks.length).toBeGreaterThan(0);
     
-            jest.restoreAllMocks();
-        } catch (error) {
-            // console.log(error)
-        }
+      jest.restoreAllMocks();
+    } catch (error) {
+      // console.log(error)
+    }
         
-    });
+  });
 
-    /**
+  /**
      * Test case for empty response when no books available.
      * This test checks if the availableBooks array is empty when no books are found.
      */
     
 
-    //? Passed
-    /////! failing test case
-    test('should return an empty array when no books are available', async () => {
-        try{
-            jest.spyOn(BookService, 'getAllAvailableBooks').mockResolvedValue([]);
+  //? Passed
+  /////! failing test case
+  test('should return an empty array when no books are available', async () => {
+    try{
+      jest.spyOn(BookService, 'getAllAvailableBooks').mockResolvedValue([]);
 
-            const response = await supertest(app).get('/api/v1/Book/viewAvailableBooks');
+      const response = await supertest(app).get('/api/v1/Book/viewAvailableBooks');
     
-            expect(response.statusCode).toBe(400);
-            expect(response.body.success).toBe(false);
-            expect(response.body.message).toBe('No books available');
-            expect(response.body).toHaveProperty('availableBooks');
-            expect(response.body.availableBooks).toEqual([]);
+      expect(response.statusCode).toBe(400);
+      expect(response.body.success).toBe(false);
+      expect(response.body.message).toBe('No books available');
+      expect(response.body).toHaveProperty('availableBooks');
+      expect(response.body.availableBooks).toEqual([]);
     
-            jest.restoreAllMocks();
-        }catch (error){
-            // console.log(error)
-        }
+      jest.restoreAllMocks();
+    }catch (error){
+      // console.log(error)
+    }
         
-    });
+  });
 
-    /**
+  /**
      * Test case for checking the performance of the API.
      * This test ensures the API responds within an acceptable time limit.
      */
-    test('should return books within an acceptable response time', async () => {
-        try {
-            const mockBooks = [
-                { ISBN: 'ISBN 01985267', title: 'Java Programming', author: 'John Doe', availableCopies: 10 },
-            ];
-            jest.spyOn(BookService, 'getAllAvailableBooks').mockResolvedValue(mockBooks);
+  test('should return books within an acceptable response time', async () => {
+    try {
+      const mockBooks = [
+        { ISBN: 'ISBN 01985267', title: 'Java Programming', author: 'John Doe', availableCopies: 10 },
+      ];
+      jest.spyOn(BookService, 'getAllAvailableBooks').mockResolvedValue(mockBooks);
     
-            const startTime = Date.now();
-            const response = await supertest(process.env.APP).get('/api/v1/Book/viewAvailableBooks');
-            const endTime = Date.now();
+      const startTime = Date.now();
+      const response = await supertest(process.env.APP).get('/api/v1/Book/viewAvailableBooks');
+      const endTime = Date.now();
     
-            const responseTime = endTime - startTime;
-            expect(responseTime).toBeLessThan(1000); // Expect response within 1 second
-            expect(response.statusCode).toBe(200);
+      const responseTime = endTime - startTime;
+      expect(responseTime).toBeLessThan(1000); // Expect response within 1 second
+      expect(response.statusCode).toBe(200);
     
-            jest.restoreAllMocks();
-        } catch (error) {
-            // console.log(error)
-        }
+      jest.restoreAllMocks();
+    } catch (error) {
+      // console.log(error)
+    }
         
-    });
+  });
 });
