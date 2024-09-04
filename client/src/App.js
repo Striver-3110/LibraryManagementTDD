@@ -5,6 +5,8 @@ import { BrowserRouter as Router, Route, Routes} from "react-router-dom";
 import AddBook from "./pages/AddBook";
 import ReturnBook from "./pages/ReturnBook";
 import Footer from "./components/common/Footer"
+import React from "react";
+const LazyLoading = React.lazy(()=>import('./LazyLoading'))
 
 function App() {
   return (
@@ -13,7 +15,7 @@ function App() {
           <Navbar />
           <div className="h-[120px]"></div>
           <Routes>
-            <Route path="/" element={<Home />}/>
+            <Route path="/" element={<Home/>}/>
             <Route path="/AddBook" element={<AddBook/>}/>
             <Route path="/ReturnBook" element={<ReturnBook/>}/>
           </Routes>
