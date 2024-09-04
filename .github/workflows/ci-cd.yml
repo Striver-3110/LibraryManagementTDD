@@ -1,17 +1,18 @@
-name: CI/CD Pipeline
+name: CI
 
-on:
-  push:
-    branches:
-      - main
-  pull_request:
-    branches:
-      - main
+on: [push, pull_request]
 
 jobs:
-  build-and-test:
+  test:
     runs-on: ubuntu-latest
-    
+
+    services:
+      mongodb:
+        image: mongo:latest
+        ports:
+          - 27017:27017
+        options: --health-cmd 'mongo --eval "db.adminCommand('ping')"' --health-interval 10s --health-timeout 5s --health-retries 3
+
     steps:
     - name: Checkout code
       uses: actions/checkout@v3
@@ -22,17 +23,9 @@ jobs:
         node-version: '18'
 
     - name: Install dependencies
-      run: |
-        cd server
-        npm install
+      run: npm install
 
     - name: Run tests
-      run: |
-        cd server
-        npm test -- --coverage
-
-    - name: Build and Deploy
-      if: github.ref == 'refs/heads/main'
-      run: |
-        cd server
-        npm run build
+      env:
+        MONGO_URI: mongodb://localhost:27017/LibraryManagementTDD
+      run: npm test
