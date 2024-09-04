@@ -25,10 +25,17 @@ jobs:
       run: |
         cd server
         npm install
+
+    - name: Run ESLint
+      run: |
+        cd server
+        npx eslint . --max-warnings=0
+
     - name: Run tests
       run: |
         cd server
         npm test -- --coverage
+
     - name: Build and Deploy
       if: github.ref == 'refs/heads/main'
       run: |
