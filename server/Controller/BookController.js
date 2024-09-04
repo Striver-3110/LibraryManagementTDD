@@ -298,7 +298,7 @@ exports.BorrowBookController = async (req, res) => {
       return res.status(400).json({
         success:false,
         message:'Sorry the book is not available!'
-      })
+      });
     }
 
     return res.status(200).json({
@@ -443,37 +443,37 @@ exports.deleteBookController = async(req,res) =>{
       return res.status(400).json({
         success:false,
         message:'Validation Error'
-      })
+      });
     }
 
     if(!ISBN){
       return res.status(400).json({
         success:false,
         message:'ISBN is not available'
-      })
+      });
     }
 
     const availableBook = await BookService.findBookByISBN(ISBN);
     if(!availableBook){
       return res.status(400).json({
         success:false,
-        message:"book does not exists"
-      })
+        message:'book does not exists'
+      });
     }
 
     const deletedBook = await BookService.deleteBook(ISBN);
-    console.log(deletedBook)
+    console.log(deletedBook);
     return res.status(200).json({
       success:true,
       message:'book deleted successfully',
       deletedBook
-    })
+    });
 
-    } catch (error) {
-      console.log(error)
-      return res.status(500).json({
-        success:false,
-        message:"Internal server error"
-      })
-    }
-}
+  } catch (error) {
+    console.log(error);
+    return res.status(500).json({
+      success:false,
+      message:'Internal server error'
+    });
+  }
+};

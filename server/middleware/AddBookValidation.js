@@ -10,7 +10,7 @@ exports.validateBook = [
     .isString().withMessage('ISBN must be a string') // Ensure ISBN is a string
     .notEmpty().withMessage('ISBN is required')
     .matches(/^[0-9-]+$/).withMessage('ISBN should only contain numbers and hyphens')
-    , // Ensure ISBN is provided
+  , // Ensure ISBN is provided
 
   // Validate the 'title' field
   check('title')

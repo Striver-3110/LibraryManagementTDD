@@ -65,7 +65,7 @@ const getAllBooks = async () => {
 
 const deleteBook = async(ISBN)=>{
   return await Book.findOneAndDelete({ISBN},{new:true});
-}
+};
 
 module.exports = {
   findBookByISBN,
