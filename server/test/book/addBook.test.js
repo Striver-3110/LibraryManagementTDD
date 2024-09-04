@@ -8,9 +8,6 @@ describe("Book Addition API", () => {
   beforeEach(() => {
     jest.clearAllMocks();
   });
-  afterAll(async () => {
-    await require("mongoose").disconnect();
-  });
   // Test for successfully adding a new book
   test("should successfully add a new book", async () => {
     // status-200
